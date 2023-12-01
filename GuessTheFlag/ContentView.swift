@@ -15,6 +15,11 @@ struct ContentView: View {
     //properties for handling the alert.
     @State private var showingScore = false
     @State private var scoreTitle = ""
+    @State private var score = 0
+    @State private var tapped = ""
+    @State private var rounds = 0
+    @State private var roundTitle = ""
+    @State private var showingReset = false
     
     var body: some View {
         ZStack {
@@ -44,6 +49,8 @@ struct ContentView: View {
                     ForEach(0..<3) { number in
                         Button {
                             flagTapped(number)
+                            flagReset(rounds)
+                            tapped = countries[number]
                         } label: {
                             Image(countries[number])
                                 .clipShape(.capsule) //capsule rounds the edges that are closest
@@ -59,7 +66,7 @@ struct ContentView: View {
                 Spacer()
                 Spacer()
                 
-                Text("Score: ???")
+                Text("Score: \(score)")
                     .foregroundStyle(.white)
                     .font(.title.bold())
                 
@@ -71,15 +78,30 @@ struct ContentView: View {
         .alert(scoreTitle, isPresented: $showingScore) {
             Button("Continue", action: askQuestion)
         } message: {
-            Text("Your score is ???")
+            if scoreTitle == "Correct" {
+                Text("Your score is \(score)")
+            } else {
+                Text("That'sthe flag of \(tapped).")
+                Text("Your score is \(score). Try again.")
+            }
+            
+        }
+        
+        .alert(roundTitle, isPresented: $showingReset) {
+            Button("Start Again", action: startOver)
+        } message: {
+            Text("You've finished this game with a score of \(score)")
         }
     }
     
     func flagTapped(_ number: Int) {
         if number == correctAnswer {
             scoreTitle = "Correct"
+            score += 100
+            rounds += 1
         } else {
             scoreTitle = "False"
+            rounds += 1
         }
         showingScore = true
     }
@@ -87,6 +109,18 @@ struct ContentView: View {
     func askQuestion() {
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
+    }
+ 
+    func flagReset(_ number: Int) {
+        if number == 8 {
+            roundTitle = "You made it!"
+            showingReset = true
+        }
+    }
+    
+    func startOver() {
+        rounds = 0
+        score = 0
     }
 }
 
