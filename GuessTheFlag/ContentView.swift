@@ -81,7 +81,7 @@ struct ContentView: View {
             if scoreTitle == "Correct" {
                 Text("Your score is \(score)")
             } else {
-                Text("That'sthe flag of \(tapped).")
+                Text("That's the flag of \(tapped).")
                 Text("Your score is \(score). Try again.")
             }
             
