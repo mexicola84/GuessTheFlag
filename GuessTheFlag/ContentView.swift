@@ -7,6 +7,17 @@
 
 import SwiftUI
 
+//Day 25 challenge part 2.
+struct FlagImage: View {
+    var flag: String
+    
+    var body: some View {
+        Image(flag)
+            .clipShape(.capsule) //capsule rounds the edges that are closest
+            .shadow(radius: 5)
+    }
+}
+
 struct ContentView: View {
     //.shuffled rearranges the order of the properties of the array everytime the array is called.
     @State private var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Spain", "UK", "Ukraine", "US"].shuffled()
@@ -20,6 +31,7 @@ struct ContentView: View {
     @State private var rounds = 0
     @State private var roundTitle = ""
     @State private var showingReset = false
+    
     
     var body: some View {
         ZStack {
@@ -52,9 +64,12 @@ struct ContentView: View {
                             flagReset(rounds)
                             tapped = countries[number]
                         } label: {
-                            Image(countries[number])
-                                .clipShape(.capsule) //capsule rounds the edges that are closest
-                                .shadow(radius: 5)
+                            //day 24 challenge part 2: implement the flagImage() custom ViewModifier.
+                            FlagImage(flag: countries[number])
+                            //    .clipShape(.capsule) //capsule rounds the edges that are closest
+                            //  .shadow(radius: 5)
+
+                            
                         }
                     }
                 }
