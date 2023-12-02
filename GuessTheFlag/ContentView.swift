@@ -18,6 +18,24 @@ struct FlagImage: View {
     }
 }
 
+//Day 25 challenge part 3.
+struct Title: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .font(.largeTitle.bold())
+            .foregroundStyle(.white)
+            .padding()
+            .background(.regularMaterial)
+            .clipShape(.rect(cornerRadius: 10))
+    }
+}
+
+extension View {
+    func titleStyle() -> some View {
+        modifier(Title())
+    }
+}
+
 struct ContentView: View {
     //.shuffled rearranges the order of the properties of the array everytime the array is called.
     @State private var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Spain", "UK", "Ukraine", "US"].shuffled()
@@ -46,8 +64,7 @@ struct ContentView: View {
                 Spacer()
                 
                 Text("Guess the Flag")
-                    .font(.largeTitle.bold())
-                    .foregroundStyle(.white)
+                    .titleStyle() //implement the extension of the custom view modifier.
                 
                 VStack(spacing: 15) {
                     VStack {
